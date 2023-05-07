@@ -13,17 +13,49 @@ public class CoffeeMachine {
         """;
         System.out.println(str);
 
+        Scanner sc = new Scanner(System.in);
+
         int water = 200;
         int milk = 50;
         int coffee = 15;
 
-        System.out.println("Write how many cups of coffee you will need:");
-        Scanner sc = new Scanner(System.in);
-        int numberOfCups = sc.nextInt();
+        System.out.println("Write how many ml of water the coffee machine has:");
+        int waterHas = sc.nextInt();
 
-        System.out.println("For " + numberOfCups + " cups of coffee you will need:");
-        System.out.println(water * numberOfCups + " ml of water");
-        System.out.println(milk * numberOfCups + " ml of milk");
-        System.out.println(coffee * numberOfCups + " g of coffee beans");
+        System.out.println("Write how many ml of milk the coffee machine has:");
+        int milkHas = sc.nextInt();
+
+        System.out.println("Write how many grams of coffee beans the coffee machine has:");
+        int coffeeHas = sc.nextInt();
+
+        System.out.println("Write how many cups of coffee you will need:");
+        int numberOfCupsWanted = sc.nextInt();
+
+        int waterNeeded = water * numberOfCupsWanted;
+        int milkNeeded = milk * numberOfCupsWanted;
+        int coffeeNeeded = coffee * numberOfCupsWanted;
+
+        int cups = 0;
+
+        if (waterHas >= waterNeeded && milkHas >= milkNeeded && coffeeHas >= coffeeNeeded) {
+            for (int i = 0; waterHas >= water && milkHas >= milk && coffeeHas >= coffee; i++) {
+                waterHas -= water;
+                milkHas -= milk;
+                coffeeHas -= coffee;
+                cups += 1;
+            }
+            if (cups == numberOfCupsWanted) {
+                System.out.println("Yes, I can make that amount of coffee");
+            } else if (cups > numberOfCupsWanted) {
+                int remainder = cups - numberOfCupsWanted;
+                System.out.println("Yes, I can make that amount of coffee (and even " + remainder + " more that that)");
+            }
+        } else if (waterHas < waterNeeded || milkHas < milkNeeded || coffeeHas < coffeeNeeded) {
+            waterHas = waterHas / water;
+            milkHas = milkHas / milk;
+            coffeeHas = coffeeHas / coffee;
+            cups = Math.min(Math.min(waterHas, milkHas), coffeeHas);
+            System.out.println("No, I can make only " + cups + " cup(s) of coffee");
+        }
     }
 }
